@@ -1,5 +1,5 @@
 {
-  "name": "tgbox",
+  "name": "unofficialtelegrambox",
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@10.27.0",
@@ -14,12 +14,15 @@
   },
   "dependencies": {
     "@mtcute/dispatcher": "^0.27.5",
+    "@mtcute/html-parser": "^0.27.5",
     "@mtcute/node": "^0.27.5",
+    "@mtcute/tl": "^221.0.0",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
     "cross-env": "^7.0.3",
+    "node-gyp": "^12.1.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"

@@ -15,7 +15,7 @@ let dispatcher: Dispatcher;
 let client: TelegramClient;
 
 /**
- * 当前登陆用户
+ * 当前登录用户
  */
 let user: User;
 
@@ -31,18 +31,46 @@ const getDispatcher = async (): Promise<Dispatcher> => {
 }
 
 /**
- * 登陆
+ * 获取客户端
+ */
+const getClient = async (): Promise<TelegramClient> => {
+    if (!client) {
+        await login();
+    }
+    return client;
+}
+
+/**
+ * 登录
  */
 const login = async (): Promise<User> => {
     if (!client && !user) {
-        ensureStorageDir(env.storagePath);
+        ensureStorageDir(env.SESSION_PATH);
         client = new TelegramClient({
-            apiId: env.apiId,
-            apiHash: env.apiHash,
-            storage: env.storagePath,
+            apiId: env.API_ID,
+            apiHash: env.API_HASH,
+            storage: env.SESSION_PATH,
+            testMode: env.IS_TEST_MODE,
+            defaultDcs: env.DC_HOST
+                ? {
+                    main: {
+                        ipAddress: env.DC_HOST,
+                        port: env.DC_PORT,
+                        id: env.DC_ID,
+                        testMode: env.IS_TEST_MODE
+                    },
+                    media: {
+                        ipAddress: env.DC_HOST,
+                        port: env.DC_PORT,
+                        id: env.DC_ID,
+                        testMode: env.IS_TEST_MODE,
+                        mediaOnly: true
+                    }
+                }
+                : undefined,
             updates: {
                 catchUp: true,
-                messageGroupingInterval: 150
+                messageGroupingInterval: 250
             }
         });
         user = await client.start({
@@ -55,7 +83,7 @@ const login = async (): Promise<User> => {
 }
 
 /**
- * 获取当前登陆用户
+ * 获取当前登录用户
  */
 const getCurrentUser = async (): Promise<User> => {
     await login();
@@ -75,6 +103,7 @@ const ensureStorageDir = (storagePath: string) => {
 
 export {
     login,
+    getClient,
     getDispatcher,
     getCurrentUser,
 }
