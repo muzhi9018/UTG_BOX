@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@mtcute/core':
+        specifier: ^0.27.6
+        version: 0.27.6
       '@mtcute/dispatcher':
         specifier: ^0.27.5
         version: 0.27.5
@@ -374,14 +377,14 @@ packages:
   '@jridgewell/sourcemap-codec@1.5.5':
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
 
-  '@mtcute/core@0.27.5':
-    resolution: {integrity: sha512-OMWFxiMVHMM8zPbliHjzNzc7q6DbJhoHpLGEmUPYQ7e/PMejIvluHWr4+TXUTOLtsvbkggOgvLyQekawrN4bsA==}
+  '@mtcute/core@0.27.6':
+    resolution: {integrity: sha512-OqjQ2hchF15yJAjcAgBuWx4RCnvMED0P3kiUfU3EsDMMIJlh8TgOgm0QspIda/Uz7icZ5+pi0rHyCYblw2MMKw==}
 
   '@mtcute/dispatcher@0.27.5':
     resolution: {integrity: sha512-jjzGrxBW27cIZgnQ/XtUL1zmPk89mklbhdotFglaQAWiYXAmDBRtV8ieDW3ybJFgD5OzVBb/aQhWQz0ybvpDlA==}
 
-  '@mtcute/file-id@0.27.0':
-    resolution: {integrity: sha512-a8+8TSot62zM7rmuNzf7aTk3dws3wuHPjWRFeybhFg11Gr1/1f8R3MRGoHYzDGRcuXobcU9mUQxEKYYE+ogdEg==}
+  '@mtcute/file-id@0.27.6':
+    resolution: {integrity: sha512-ZSPxbGjS6YdcZv4xW0zHJ/iR28nEBisG3G6gDTwVS4gU51SJ4vlGcwGjF1uLyEeuGGbPFemQHLCP6CMSzqMRvA==}
 
   '@mtcute/html-parser@0.27.5':
     resolution: {integrity: sha512-nNMwfSFT+2NCmpGnAey6RWc2sE21R71d4NyjiNjvMZU8TxEDIUokOLAVhaf20HFEYBiVyugexz7iJ8msVFsp2Q==}
@@ -1349,12 +1352,12 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
-  '@mtcute/core@0.27.5':
+  '@mtcute/core@0.27.6':
     dependencies:
       '@fuman/io': 0.0.17
       '@fuman/net': 0.0.17
       '@fuman/utils': 0.0.17
-      '@mtcute/file-id': 0.27.0
+      '@mtcute/file-id': 0.27.6
       '@mtcute/tl': 221.0.0
       '@mtcute/tl-runtime': 0.24.3
       '@types/events': 3.0.0
@@ -1363,9 +1366,9 @@ snapshots:
   '@mtcute/dispatcher@0.27.5':
     dependencies:
       '@fuman/utils': 0.0.17
-      '@mtcute/core': 0.27.5
+      '@mtcute/core': 0.27.6
 
-  '@mtcute/file-id@0.27.0':
+  '@mtcute/file-id@0.27.6':
     dependencies:
       '@fuman/utils': 0.0.17
       '@mtcute/tl-runtime': 0.24.3
@@ -1373,13 +1376,13 @@ snapshots:
 
   '@mtcute/html-parser@0.27.5':
     dependencies:
-      '@mtcute/core': 0.27.5
+      '@mtcute/core': 0.27.6
       htmlparser2: 10.0.0
       long: 5.2.3
 
   '@mtcute/markdown-parser@0.27.5':
     dependencies:
-      '@mtcute/core': 0.27.5
+      '@mtcute/core': 0.27.6
       long: 5.2.3
 
   '@mtcute/node@0.27.5':
@@ -1387,7 +1390,7 @@ snapshots:
       '@fuman/net': 0.0.17
       '@fuman/node': 0.0.17
       '@fuman/utils': 0.0.17
-      '@mtcute/core': 0.27.5
+      '@mtcute/core': 0.27.6
       '@mtcute/html-parser': 0.27.5
       '@mtcute/markdown-parser': 0.27.5
       '@mtcute/wasm': 0.27.0

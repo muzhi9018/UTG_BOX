@@ -12,7 +12,7 @@ export default class ReloadPlugins extends BasePlugin {
     }
 
     async handleMessage(message: MessageContext): Promise<void> {
-        console.log('收到消息了', message);
+
     }
 
 }
