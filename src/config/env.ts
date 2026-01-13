@@ -79,7 +79,7 @@ export const env = {
     DC_ID,
     IS_TEST_MODE,
     ALLOWED_CHAT_IDS: new Set<number>(ALLOWED_CHAT_IDS),
-    PLUGINS_PATH: process.env.PLUGINS_PATH ?? 'plugins',
+    PLUGINS_PATH: process.env.PLUGINS_PATH ?? (IS_PRODUCTION ? 'dist/plugins' : 'src/plugins'),
     COMMAND_PREFIXES,
 };
 

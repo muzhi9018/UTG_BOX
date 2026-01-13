@@ -1,6 +1,6 @@
 import {MessageContext} from "@mtcute/dispatcher";
 import {html} from '@mtcute/html-parser'
-import {BasePlugin, PluginScope} from "../../src/core/base-plugin.js";
+import {BasePlugin, PluginScope} from "../../core/base-plugin.js";
 import {CommonSendParams} from "@mtcute/core/methods.js";
 
 

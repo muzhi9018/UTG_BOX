@@ -1,5 +1,5 @@
 import type {MessageContext} from "@mtcute/dispatcher";
-import {BasePlugin, PluginScope} from "../../src/core/base-plugin.js";
+import {BasePlugin, PluginScope} from "../../core/base-plugin.js";
 
 export default class ReloadPlugins extends BasePlugin {
     command = 'pg';
