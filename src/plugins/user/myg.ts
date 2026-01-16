@@ -592,3 +592,5 @@ function builderMessageContent(username: string, templates: string[]): string {
     // 正则表达式 /{{username}}/g 确保全局替换（若模板中出现多个占位符也能全部替换）
     return template.replace(/{{username}}/g, username);
 }
+
+export const Plugin = MYGPlugin;
