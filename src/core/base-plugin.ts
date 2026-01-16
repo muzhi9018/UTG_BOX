@@ -131,8 +131,12 @@ export abstract class BasePlugin {
      * @protected
      */
     protected async builderMentionUrl(userId: number, username: string) {
-        // const user = await this.context.client.getUser(userId);
-        return `<a href="tg://user?id=${userId}">${username}</a>`;
+        try {
+            const user = await this.context.client.getUser(userId);
+            return `<a href="tg://user?id=${user.id}">${username}</a>`;
+        } catch (e) {
+            return username;
+        }
     }
 
 

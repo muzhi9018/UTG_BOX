@@ -493,7 +493,7 @@ export class MYGPlugin extends BasePlugin {
      */
     private isWelcomingGuests(message: MessageContext): boolean {
         const text = message?.text.trim() || '';
-        const sender = message.sender
+        const sender = message.sender;
         return (sender.type === 'user' && !message.isOutgoing && (text.includes('发电') || text.includes('开号') || text.includes('注册')));
     }
 
