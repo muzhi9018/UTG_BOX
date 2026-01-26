@@ -16,6 +16,7 @@ import sharp from "sharp";
 import {PingPlugin} from "./ping.js";
 
 const execAsync = promisify(exec);
+const toFileInput = (filePath: string): string => `file:${filePath}`;
 
 const SPEEDTEST_VERSION = "1.2.0";
 const SPEEDTEST_ROOT = path.join(process.cwd(), "data", "speedtest");
@@ -1164,7 +1165,7 @@ export class SpeedtestPlugin extends BasePlugin {
                             if (type === "photo") {
                                 await this.context.client.sendMedia(
                                     message.chat,
-                                    InputMedia.photo(imagePath, {caption: html(finalDescription)})
+                                    InputMedia.photo(toFileInput(imagePath), {caption: html(finalDescription)})
                                 );
                                 try {
                                     await message.delete();
@@ -1179,7 +1180,7 @@ export class SpeedtestPlugin extends BasePlugin {
                             if (type === "file") {
                                 await this.context.client.sendMedia(
                                     message.chat,
-                                    InputMedia.document(imagePath, {caption: html(finalDescription)})
+                                    InputMedia.document(toFileInput(imagePath), {caption: html(finalDescription)})
                                 );
                                 try {
                                     await message.delete();
@@ -1196,7 +1197,7 @@ export class SpeedtestPlugin extends BasePlugin {
                                 if (stickerPath && fs.existsSync(stickerPath)) {
                                     await this.context.client.sendMedia(
                                         message.chat,
-                                        InputMedia.sticker(stickerPath, {alt: "speedtest"})
+                                        InputMedia.sticker(toFileInput(stickerPath), {alt: "speedtest"})
                                     );
                                     try {
                                         fs.unlinkSync(imagePath);
@@ -1264,4 +1265,3 @@ export class SpeedtestPlugin extends BasePlugin {
 }
 
 export const Plugin = SpeedtestPlugin;
-
