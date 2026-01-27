@@ -825,7 +825,7 @@ class MessageUtils {
 
         const configManager = await this.configManagerPromise;
         const config = configManager.getConfig();
-        const poweredByText = `\n\n<i>🍀Powered by ${config.currentChatTag}</i>`;
+        const poweredByText = `</br></br><i>🍀Powered by ${config.currentChatTag}</i>`;
 
         if (text.length <= 4050) {
             token?.throwIfAborted();
@@ -836,8 +836,8 @@ class MessageUtils {
                 const answerPart = parts[1];
                 const cleanAnswer = answerPart.replace(/^A:\n/, "");
                 const cleanQuestion = questionPart.replace(/^Q:\n/, "").replace(/\n\n$/, "");
-                const questionBlock = `Q:\n${this.wrapHtmlWithCollapseIfNeeded(cleanQuestion, config.collapse)}\n\n`;
-                const answerBlock = `A:\n${this.wrapHtmlWithCollapseIfNeeded(cleanAnswer, config.collapse)}`;
+                const questionBlock = `Q:</br>${this.wrapHtmlWithCollapseIfNeeded(cleanQuestion, config.collapse)}</br></br>`;
+                const answerBlock = `A:</br>${this.wrapHtmlWithCollapseIfNeeded(cleanAnswer, config.collapse)}`;
                 const finalText = questionBlock + answerBlock + poweredByText;
 
                 return await this.sendHtml(msg, finalText, replyToId, false);
@@ -873,8 +873,8 @@ class MessageUtils {
         token?.throwIfAborted();
 
         const firstMessageContent =
-            `Q:\n${this.wrapHtmlWithCollapseIfNeeded(question, config.collapse)}\n\n` +
-            `A:\n${this.wrapHtmlWithCollapseIfNeeded(chunks[0], config.collapse)}`;
+            `Q:</br>${this.wrapHtmlWithCollapseIfNeeded(question, config.collapse)}</br></br>` +
+            `A:</br>${this.wrapHtmlWithCollapseIfNeeded(chunks[0], config.collapse)}`;
 
         const firstMessage = await this.sendHtml(msg, firstMessageContent, replyToId);
 
@@ -885,7 +885,7 @@ class MessageUtils {
 
             const isLast = idx === chunks.length - 1;
             const wrapped = this.wrapHtmlWithCollapseIfNeeded(chunks[idx], config.collapse);
-            const prefix = `📋 <b>续 (${idx}/${chunks.length - 1}):</b>\n\n`;
+            const prefix = `📋 <b>续 (${idx}/${chunks.length - 1}):</b></br></br>`;
             const finalMessage = prefix + wrapped + (isLast ? poweredByText : "");
 
             await this.sendHtml(msg, finalMessage, firstMessage.id, false);
@@ -959,7 +959,7 @@ class MessageUtils {
 
         const promptText = htmlEscape(prompt);
         const promptBlock = options.collapse ? `<blockquote expandable>${promptText}</blockquote>` : promptText;
-        const poweredByText = `\n\n<i>🍀Powered by ${options.poweredByTag}</i>`;
+        const poweredByText = `</br></br><i>🍀Powered by ${options.poweredByTag}</i>`;
         const caption = promptBlock + poweredByText;
         const mediaDir = ensureAiDir(options.directory);
         const timestamp = Date.now();
@@ -1013,7 +1013,7 @@ class MessageUtils {
                 {
                     url: "https://api.telegra.ph/createAccount",
                     method: "POST",
-                    data: {short_name: "TeleBoxAI", author_name: "TeleBox"},
+                    data: {short_name: "UTGBOXAI", author_name: "TeleBox"},
                 },
                 token
             );
@@ -1628,9 +1628,9 @@ class HttpClient {
 
 class AIService implements ConfigChangeListener {
     private configManager?: ConfigManager;
-    private configManagerPromise: Promise<ConfigManager>;
-    private activeTokens: Set<AbortToken> = new Set();
-    private httpClient: HttpClient;
+    private readonly configManagerPromise: Promise<ConfigManager>;
+    private readonly activeTokens: Set<AbortToken> = new Set();
+    private readonly httpClient: HttpClient;
 
     constructor(configManagerPromise: Promise<ConfigManager>, httpClient: HttpClient) {
         this.configManagerPromise = configManagerPromise;
@@ -2231,8 +2231,8 @@ class ConfigFeature extends BaseFeatureHandler {
             const list =
                 Object.values(config.configs)
                     .map((c) => `🏷️ <code>${c.tag}</code> - ${c.url}`)
-                    .join("\n") || "暂无配置";
-            await this.editMessage(msg, `📋 <b>API配置列表:</b>\n\n⚙️ 配置:\n${list}`);
+                    .join("</br>") || "暂无配置";
+            await this.editMessage(msg, `📋 <b>API配置列表:</b></br></br>⚙️ 配置:</br>${list}`);
             return;
         }
 
@@ -2273,9 +2273,9 @@ class ConfigFeature extends BaseFeatureHandler {
 
         await this.editMessage(
             msg,
-            "✅ API配置已添加:\n\n" +
-            `🏷️ 标签: <code>${tag}</code>\n` +
-            `🔗 地址: <code>${url}</code>\n` +
+            "✅ API配置已添加:</br></br>" +
+            `🏷️ 标签: <code>${tag}</code></br>` +
+            `🔗 地址: <code>${url}</code></br>` +
             `🔑 密钥: <code>${key}</code>`
         );
     }
@@ -2322,12 +2322,12 @@ class ModelFeature extends BaseFeatureHandler {
         if (args.length < 2) {
             await this.editMessage(
                 msg,
-                `🤖 <b>当前AI配置:</b>\n\n` +
-                `💬 chat配置: <code>${config.currentChatTag || "未设置"}</code>\n` +
-                `🧠 chat模型: <code>${config.currentChatModel || "未设置"}</code>\n` +
-                `🖼️ image配置: <code>${config.currentImageTag || "未设置"}</code>\n` +
-                `🎨 image模型: <code>${config.currentImageModel || "未设置"}</code>\n` +
-                `🎬 video配置: <code>${config.currentVideoTag || "未设置"}</code>\n` +
+                `🤖 <b>当前AI配置:</b></br></br>` +
+                `💬 chat配置: <code>${config.currentChatTag || "未设置"}</code></br>` +
+                `🧠 chat模型: <code>${config.currentChatModel || "未设置"}</code></br>` +
+                `🖼️ image配置: <code>${config.currentImageTag || "未设置"}</code></br>` +
+                `🎨 image模型: <code>${config.currentImageModel || "未设置"}</code></br>` +
+                `🎬 video配置: <code>${config.currentVideoTag || "未设置"}</code></br>` +
                 `📹 video模型: <code>${config.currentVideoModel || "未设置"}</code>`
             );
             return;
@@ -2357,7 +2357,7 @@ class ModelFeature extends BaseFeatureHandler {
         const modeLabel = mode === "chat" ? "chat模型" : mode === "image" ? "image模型" : "video模型";
         await this.editMessage(
             msg,
-            `✅ ${modeLabel}已切换到:\n\n🏷️ 配置: <code>${tag}</code>\n🧠 模型: <code>${model}</code>`
+            `✅ ${modeLabel}已切换到:</br></br>🏷️ 配置: <code>${tag}</code></br>🧠 模型: <code>${model}</code>`
         );
     }
 }
@@ -2376,7 +2376,7 @@ class PromptFeature extends BaseFeatureHandler {
         const config = configManager.getConfig();
 
         if (args.length < 2) {
-            await this.editMessage(msg, `💭 <b>当前提示词:</b>\n\n📝 内容: <code>${config.prompt || "未设置"}</code>`);
+            await this.editMessage(msg, `💭 <b>当前提示词:</b></br></br>📝 内容: <code>${config.prompt || "未设置"}</code>`);
             return;
         }
 
@@ -2386,7 +2386,7 @@ class PromptFeature extends BaseFeatureHandler {
             await configManager.updateConfig((cfg) => {
                 cfg.prompt = args.slice(2).join(" ");
             });
-            await this.editMessage(msg, `✅ 提示词已设置:\n\n<code>${args.slice(2).join(" ")}</code>`);
+            await this.editMessage(msg, `✅ 提示词已设置:</br></br><code>${args.slice(2).join(" ")}</code>`);
             return;
         }
 
@@ -2418,7 +2418,7 @@ class CollapseFeature extends BaseFeatureHandler {
         if (args.length < 2) {
             await this.editMessage(
                 msg,
-                `📖 <b>消息折叠状态:</b>\n\n📄 当前状态: ${config.collapse ? "开启" : "关闭"}`
+                `📖 <b>消息折叠状态:</b></br></br>📄 当前状态: ${config.collapse ? "开启" : "关闭"}`
             );
             return;
         }
@@ -2476,15 +2476,15 @@ class TelegraphFeature extends BaseFeatureHandler {
 
     private async showTelegraphStatus(msg: MessageContext, config: DB): Promise<void> {
         let status =
-            `📰 <b>Telegraph状态:</b>\n\n` +
-            `🌐 当前状态: ${config.telegraph.enabled ? "开启" : "关闭"}\n` +
-            `📊 限制数量: <code>${config.telegraph.limit}</code>\n` +
+            `📰 <b>Telegraph状态:</b></br></br>` +
+            `🌐 当前状态: ${config.telegraph.enabled ? "开启" : "关闭"}</br>` +
+            `📊 限制数量: <code>${config.telegraph.limit}</code></br>` +
             `📈 记录数量: <code>${config.telegraph.list.length}/${config.telegraph.limit}</code>`;
 
         if (config.telegraph.list.length > 0) {
-            status += "\n\n";
+            status += "</br></br>";
             config.telegraph.list.forEach((item, index) => {
-                status += `${index + 1}. <a href="${item.url}">🔗 ${item.title}</a>\n`;
+                status += `${index + 1}. <a href="${item.url}">🔗 ${item.title}</a></br>`;
             });
         }
 
@@ -2558,7 +2558,7 @@ class TimeoutFeature extends BaseFeatureHandler {
         if (args.length < 2) {
             await this.editMessage(
                 msg,
-                `⏱️ <b>当前超时设置:</b>\n\n⏰ 超时时间: <code>${config.timeout} 秒</code>`
+                `⏱️ <b>当前超时设置:</b></br></br>⏰ 超时时间: <code>${config.timeout} 秒</code>`
             );
             return;
         }
@@ -2636,7 +2636,7 @@ class QuestionFeature extends BaseFeatureHandler {
 
         if (!config.currentChatTag || !config.currentChatModel || !config.configs[config.currentChatTag]) {
             throw new UserError(
-                `请先配置API并设置模型\n使用 ${prefixes[0]}ai config add <tag> <url> <key> 和 ${prefixes[0]}ai model chat <tag> <model-path>`
+                `请先配置API并设置模型</br>使用 ${prefixes[0]}ai config add <tag> <url> <key> 和 ${prefixes[0]}ai model chat <tag> <model-path>`
             );
         }
 
@@ -2692,14 +2692,14 @@ class QuestionFeature extends BaseFeatureHandler {
         const telegraphMarkdown = `**Q:**\n${question}\n\n**A:**\n${rawAnswer}\n`;
         const telegraphResult = await this.messageUtils.createTelegraphPage(telegraphMarkdown, question, token);
 
-        const poweredByText = `\n\n<i>🍀Powered by ${config.currentChatTag}</i>`;
+        const poweredByText = `</br></br><i>🍀Powered by ${config.currentChatTag}</i>`;
         const safeQuestion = htmlEscape(question);
         const questionBlock = config.collapse
-            ? `Q:\n<blockquote expandable>${safeQuestion}</blockquote>\n\n`
-            : `Q:\n${safeQuestion}\n\n`;
+            ? `Q:</br><blockquote expandable>${safeQuestion}</blockquote></br></br>`
+            : `Q:</br>${safeQuestion}</br></br>`;
         const answerBlock = config.collapse
-            ? `A:\n<blockquote expandable>📰内容比较长，Telegraph观感更好喔:\n\n🔗 <a href="${telegraphResult.url}">点我阅读内容</a></blockquote>${poweredByText}`
-            : `A:\n📰内容比较长，Telegraph观感更好喔:\n\n🔗 <a href="${telegraphResult.url}">点我阅读内容</a>${poweredByText}`;
+            ? `A:</br><blockquote expandable>📰内容比较长，Telegraph观感更好喔:</br></br>🔗 <a href="${telegraphResult.url}">点我阅读内容</a></blockquote>${poweredByText}`
+            : `A:</br>📰内容比较长，Telegraph观感更好喔:</br></br>🔗 <a href="${telegraphResult.url}">点我阅读内容</a>${poweredByText}`;
 
         await MessageSender.sendNew(msg, questionBlock + answerBlock, {linkPreview: false}, replyToId);
 
@@ -2739,7 +2739,7 @@ class ImageFeature extends BaseFeatureHandler {
             if (!state) {
                 await this.editMessage(
                     msg,
-                    `🖼️ <b>图片预览状态:</b>\n\n📄 当前状态: ${config.imagePreview ? "开启" : "关闭"}`
+                    `🖼️ <b>图片预览状态:</b></br></br>📄 当前状态: ${config.imagePreview ? "开启" : "关闭"}`
                 );
                 return;
             }
@@ -2762,7 +2762,7 @@ class ImageFeature extends BaseFeatureHandler {
 
         if (!config.currentImageTag || !config.currentImageModel || !config.configs[config.currentImageTag]) {
             throw new UserError(
-                `请先配置API并设置模型\n使用 ${prefixes[0]}ai config add <tag> <url> <key> 和 ${prefixes[0]}ai model image <tag> <model-path>`
+                `请先配置API并设置模型</br>使用 ${prefixes[0]}ai config add <tag> <url> <key> 和 ${prefixes[0]}ai model image <tag> <model-path>`
             );
         }
 
@@ -2834,7 +2834,7 @@ class VideoFeature extends BaseFeatureHandler {
             if (!state) {
                 await this.editMessage(
                     msg,
-                    `🎬 <b>视频预览状态:</b>\n\n📄 当前状态: ${config.videoPreview ? "开启" : "关闭"}`
+                    `🎬 <b>视频预览状态:</b></br></br>📄 当前状态: ${config.videoPreview ? "开启" : "关闭"}`
                 );
                 return;
             }
@@ -2850,7 +2850,7 @@ class VideoFeature extends BaseFeatureHandler {
             if (!state) {
                 await this.editMessage(
                     msg,
-                    `🔊 <b>视频音频状态:</b>\n\n📄 当前状态: ${config.videoAudio ? "开启" : "关闭"}`
+                    `🔊 <b>视频音频状态:</b></br></br>📄 当前状态: ${config.videoAudio ? "开启" : "关闭"}`
                 );
                 return;
             }
@@ -2866,7 +2866,7 @@ class VideoFeature extends BaseFeatureHandler {
             if (!args[2]) {
                 await this.editMessage(
                     msg,
-                    `⏱️ <b>视频时长:</b>\n\n⏰ 当前时长: <code>${config.videoDuration} 秒</code>`
+                    `⏱️ <b>视频时长:</b></br></br>⏰ 当前时长: <code>${config.videoDuration} 秒</code>`
                 );
                 return;
             }
@@ -2909,7 +2909,7 @@ class VideoFeature extends BaseFeatureHandler {
 
         if (!config.currentVideoTag || !config.currentVideoModel || !config.configs[config.currentVideoTag]) {
             throw new UserError(
-                `请先配置API并设置模型\n使用 ${prefixes[0]}ai config add <tag> <url> <key> 和 ${prefixes[0]}ai model video <tag> <model-path>`
+                `请先配置API并设置模型</br>使用 ${prefixes[0]}ai config add <tag> <url> <key> 和 ${prefixes[0]}ai model video <tag> <model-path>`
             );
         }
 
@@ -2995,54 +2995,46 @@ class AIPlugin extends BasePlugin {
         const mainPrefix = this.getMainPrefix();
         const config = (await this.configManagerPromise).getConfig();
 
-        const baseDescription = `<b>🤖 智能AI助手</b>
-
-<b>⚙️ API配置:</b>
-• <code>${mainPrefix}ai config add &lt;tag&gt; &lt;url&gt; &lt;key&gt;</code> - 添加API配置
-• <code>${mainPrefix}ai config del &lt;tag&gt;</code> - 删除API配置
-
-<b>🧠 模型设置:</b>
-• <code>${mainPrefix}ai model chat &lt;tag&gt; &lt;model-path&gt;</code> - 设置聊天模型
-• <code>${mainPrefix}ai model image &lt;tag&gt; &lt;model-path&gt;</code> - 设置图片模型
-• <code>${mainPrefix}ai model video &lt;tag&gt; &lt;model-path&gt;</code> - 设置视频模型
-
-<b>💬 提问:</b>
-• <code>${mainPrefix}ai &lt;input&gt;</code> - 向AI发起提问
-• <code>${mainPrefix}ai image &lt;prompt&gt;</code> - 文生图
-• <code>${mainPrefix}ai video &lt;prompt&gt;</code> - 文生/参考图生成视频
-• <code>${mainPrefix}ai video first &lt;prompt&gt;</code> - 首帧生成视频
-• <code>${mainPrefix}ai video firstlast &lt;prompt&gt;</code> - 首尾帧生成视频
-
-<b>✍️ 提示词:</b>
-• <code>${mainPrefix}ai prompt set &lt;input&gt;</code> - 设置提示词
-• <code>${mainPrefix}ai prompt del</code> - 删除提示词
-
-<b>🧩 消息设置:</b>
-• <code>${mainPrefix}ai image preview on|off</code> - 设置图片预览
-• <code>${mainPrefix}ai video preview on|off</code> - 设置视频预览
-• <code>${mainPrefix}ai video audio on|off</code> - 开/关视频音频
-• <code>${mainPrefix}ai collapse on|off</code> - 开/关消息折叠
-• <code>${mainPrefix}ai video duration &lt;sec&gt;</code> - 视频输出时长
-• <code>${mainPrefix}ai timeout &lt;sec&gt;</code> - 设置超时时间
-
-<b>📰 Telegraph:</b>
-• <code>${mainPrefix}ai telegraph on</code> - 开启Telegraph
-• <code>${mainPrefix}ai telegraph off</code> - 关闭Telegraph
-• <code>${mainPrefix}ai telegraph limit &lt;integer&gt;</code> - 设置容量
-• <code>${mainPrefix}ai telegraph del &lt;number/all&gt;</code> - 删除记录
-
-<b>📌 使用说明:</b>
-• 不携带参数可进行查询
-• 回复消息可进行补充提问
-`;
+    const baseDescription = `<b>🤖 智能AI助手</b></br></br>
+<b>⚙️ API配置:</b></br>
+• <code>${mainPrefix}ai config add &lt;tag&gt; &lt;url&gt; &lt;key&gt;</code> - 添加API配置</br>
+• <code>${mainPrefix}ai config del &lt;tag&gt;</code> - 删除API配置</br></br>
+<b>🧠 模型设置:</b></br>
+• <code>${mainPrefix}ai model chat &lt;tag&gt; &lt;model-path&gt;</code> - 设置聊天模型</br>
+• <code>${mainPrefix}ai model image &lt;tag&gt; &lt;model-path&gt;</code> - 设置图片模型</br>
+• <code>${mainPrefix}ai model video &lt;tag&gt; &lt;model-path&gt;</code> - 设置视频模型</br></br>
+<b>💬 提问:</b></br>
+• <code>${mainPrefix}ai &lt;input&gt;</code> - 向AI发起提问</br>
+• <code>${mainPrefix}ai image &lt;prompt&gt;</code> - 文生图</br>
+• <code>${mainPrefix}ai video &lt;prompt&gt;</code> - 文生/参考图生成视频</br>
+• <code>${mainPrefix}ai video first &lt;prompt&gt;</code> - 首帧生成视频</br>
+• <code>${mainPrefix}ai video firstlast &lt;prompt&gt;</code> - 首尾帧生成视频</br></br>
+<b>✍️ 提示词:</b></br>
+• <code>${mainPrefix}ai prompt set &lt;input&gt;</code> - 设置提示词</br>
+• <code>${mainPrefix}ai prompt del</code> - 删除提示词</br></br>
+<b>🧩 消息设置:</b></br>
+• <code>${mainPrefix}ai image preview on|off</code> - 设置图片预览</br>
+• <code>${mainPrefix}ai video preview on|off</code> - 设置视频预览</br>
+• <code>${mainPrefix}ai video audio on|off</code> - 开/关视频音频</br>
+• <code>${mainPrefix}ai collapse on|off</code> - 开/关消息折叠</br>
+• <code>${mainPrefix}ai video duration &lt;sec&gt;</code> - 视频输出时长</br>
+• <code>${mainPrefix}ai timeout &lt;sec&gt;</code> - 设置超时时间</br></br>
+<b>📰 Telegraph:</b></br>
+• <code>${mainPrefix}ai telegraph on</code> - 开启Telegraph</br>
+• <code>${mainPrefix}ai telegraph off</code> - 关闭Telegraph</br>
+• <code>${mainPrefix}ai telegraph limit &lt;integer&gt;</code> - 设置容量</br>
+• <code>${mainPrefix}ai telegraph del &lt;number/all&gt;</code> - 删除记录</br></br>
+<b>📌 使用说明:</b></br>
+• 不携带参数可进行查询</br>
+• 回复消息可进行补充提问</br>`;
         if (!config.collapse) return baseDescription;
         return `<blockquote expandable>${baseDescription}</blockquote>`;
     }
 
-    protected async handlerCommand(message: MessageContext, subCommand: string, args: string[]): Promise<void> {
+    protected async handlerCommand(message: MessageContext, command: string, args: string[]): Promise<void> {
         try {
             const prefixes = this.context.env.COMMAND_PREFIXES;
-            const rawArgs = [subCommand, ...args].filter(Boolean);
+            const rawArgs = [command, ...args].filter(Boolean);
 
             if (rawArgs.length === 0) {
                 await this.questionFeature.askFromReply(message, undefined, prefixes);
