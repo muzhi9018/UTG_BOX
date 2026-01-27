@@ -166,8 +166,9 @@ export abstract class BasePlugin {
         const text = message.text?.trim() ?? "";
         const tokens = text.match(/\S+/g) ?? [];
         const [command, subCommand, ...args] = tokens;
-        // 只处理自己发送的命令
-        if (message.isOutgoing) {
+        // 只处理自己发送的命令，允许保存消息(发给自己)
+        const isSelfChat = message.chat?.type === "user" && message.chat.id === this.context.user.id;
+        if (message.isOutgoing || isSelfChat) {
             await this.handlerCommand(message, subCommand ?? '', args);
         }
     }

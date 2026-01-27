@@ -2251,7 +2251,7 @@ class ConfigFeature extends BaseFeatureHandler {
     }
 
     private async addConfig(msg: MessageContext, args: string[], configManager: ConfigManager): Promise<void> {
-        requireUser(!!(msg as any).savedPeerId, "出于安全考虑，禁止在公开场景添加/修改API密钥");
+        requireUser(msg.chat.id === msg.sender.id, "出于安全考虑，禁止在公开场景添加/修改API密钥");
         const key = args[args.length - 1];
         const url = args[args.length - 2];
         const tag = args.slice(2, -2).join(" ").trim();
@@ -3033,7 +3033,6 @@ class AIPlugin extends BasePlugin {
 
     protected async handlerCommand(message: MessageContext, command: string, args: string[]): Promise<void> {
         try {
-            console.log('收到了AI命令', command, args, JSON.stringify(message));
             const prefixes = this.context.env.COMMAND_PREFIXES;
             const rawArgs = [command, ...args].filter(Boolean);
 
