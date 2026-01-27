@@ -3033,6 +3033,7 @@ class AIPlugin extends BasePlugin {
 
     protected async handlerCommand(message: MessageContext, command: string, args: string[]): Promise<void> {
         try {
+            console.log('收到了AI命令', command, args, JSON.stringify(message));
             const prefixes = this.context.env.COMMAND_PREFIXES;
             const rawArgs = [command, ...args].filter(Boolean);
 
