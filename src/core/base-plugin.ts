@@ -145,10 +145,8 @@ export abstract class BasePlugin {
      * @protected
      */
     protected async executeMessageForwarding(message: MessageContext) {
-        const threadId = message.replyToMessage?.threadId ?? undefined;
         await message.forwardTo({
-            toChatId: message.chat,
-            ...(threadId ? {toThreadId: threadId} : {})
+            toChatId: message.chat
         });
     }
 

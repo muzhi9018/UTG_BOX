@@ -502,6 +502,8 @@ export class MYGPlugin extends BasePlugin {
         const sender = message.sender;
         if (message.media?.type === 'sticker' && sender.type === 'user' && !sender.isBot && !message.isOutgoing) {
             const stickerId = message.media.fileId;
+            console.log('[MYG] sticker fileId:', stickerId);
+            console.log(JSON.stringify(message));
             return stickerId === TRUMPET_STICKER_ID;
         }
         return false;
