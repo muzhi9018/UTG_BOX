@@ -365,7 +365,7 @@ const MYG_GROUP_ID = -1002470366329;
 const MB_USER_ID = 627156768;
 const BDS_USER_ID = 5561262684;
 // 吹喇叭贴纸id
-const TRUMPET_STICKER_ID = 'CAACAgIAAyEFAATUEOafAAKRlGl4HJT9acOwRo6DROAw5p12D8qzAAJXGQACPtMRSWFpYEN-wOQcOAQ';
+const TRUMPET_STICKER_ID = 'AgADVxkAAj7TEUk';
 
 export class MYGPlugin extends BasePlugin {
     command = 'myg';
@@ -501,9 +501,7 @@ export class MYGPlugin extends BasePlugin {
     private isBlowTrumpetSticker(message: MessageContext) {
         const sender = message.sender;
         if (message.media?.type === 'sticker' && sender.type === 'user' && !sender.isBot && !message.isOutgoing) {
-            const stickerId = message.media.fileId;
-            console.log('[MYG] sticker fileId:', stickerId);
-            console.log(JSON.stringify(message));
+            const stickerId = message.media.uniqueFileId;
             return stickerId === TRUMPET_STICKER_ID;
         }
         return false;
