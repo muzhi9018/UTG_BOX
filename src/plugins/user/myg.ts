@@ -467,7 +467,7 @@ export class MYGPlugin extends BasePlugin {
     private isOpenAccount(message: MessageContext): boolean {
         const userId = this.getUserId(message);
         const text = message?.text.trim() || '';
-        return (userId === MYG_OPEN_ACCOUNT_BOT_USER_ID && text.includes('赠予资格。前往bot进行下一步操作'));
+        return (userId === MYG_OPEN_ACCOUNT_BOT_USER_ID && text.includes('赠予资格') && text.includes('前往bot进行下一步操作'));
         // return message.message.includes('赠予资格。前往bot进行下一步操作')
     }
 
