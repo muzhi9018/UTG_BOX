@@ -358,12 +358,18 @@ const welcomingGuestsTemplates = [
 
 // 墨云阁开号机器人用户id
 const MYG_OPEN_ACCOUNT_BOT_USER_ID = 7716090156;
-
+// 墨云阁白名单开号机器人用户id
+const MYG_WHITELIST_OPEN_ACCOUNT_BOT_USER_ID = 8532135071;
 // 墨云阁群聊id
 // const MYG_GROUP_ID = 2470366329;
 const MYG_GROUP_ID = -1002470366329;
+// 墨云阁白名单群聊 id
+const MYG_WHITELIST_GROUP_ID = -1002573134120;
 const MB_USER_ID = 627156768;
 const BDS_USER_ID = 5561262684;
+// 墨云阁开号机器人用户 id 列表
+const MYG_OPEN_ACCOUNT_BOT_USER_ID_LIST = [MYG_OPEN_ACCOUNT_BOT_USER_ID, MYG_WHITELIST_OPEN_ACCOUNT_BOT_USER_ID]
+
 // 吹喇叭贴纸id
 const TRUMPET_STICKER_ID = 'AgADVxkAAj7TEUk';
 
@@ -425,7 +431,7 @@ export class MYGPlugin extends BasePlugin {
         let params: CommonSendParams = {}
         // 判断为墨云阁群聊
         // if (chatId === MYG_GROUP_ID || chatId === 3435821057 || 1 === 1) {
-        if (chatId === MYG_GROUP_ID) {
+        if (chatId === MYG_GROUP_ID || chatId === MYG_WHITELIST_GROUP_ID) {
             // 判断是否为吹喇叭贴纸消息
             if (this.isBlowTrumpetSticker(message)) {
                 await this.executeMessageForwarding(message);
@@ -467,7 +473,7 @@ export class MYGPlugin extends BasePlugin {
     private isOpenAccount(message: MessageContext): boolean {
         const userId = this.getUserId(message);
         const text = message?.text.trim() || '';
-        return (userId === MYG_OPEN_ACCOUNT_BOT_USER_ID && text.includes('赠予资格') && text.includes('前往bot进行下一步操作'));
+        return (MYG_OPEN_ACCOUNT_BOT_USER_ID_LIST.includes(userId) && text.includes('赠予资格') && text.includes('前往bot进行下一步操作'));
         // return message.message.includes('赠予资格。前往bot进行下一步操作')
     }
 
@@ -478,7 +484,7 @@ export class MYGPlugin extends BasePlugin {
     private isOpenAccountSuccessful(message: MessageContext): boolean {
         const userId = this.getUserId(message);
         const text = message?.text.trim() || '';
-        return (userId === MYG_OPEN_ACCOUNT_BOT_USER_ID && text.includes('注册码使用'))
+        return (MYG_OPEN_ACCOUNT_BOT_USER_ID_LIST.includes(userId) && text.includes('注册码使用'))
         // return message.message.includes('注册码使用')
     }
 
@@ -490,7 +496,7 @@ export class MYGPlugin extends BasePlugin {
     private isOpenWhitelist(message: MessageContext): boolean {
         const userId = this.getUserId(message);
         let text = message?.text.trim() || '';
-        return (userId === MYG_OPEN_ACCOUNT_BOT_USER_ID && text.endsWith('名单.') && text.includes('签出的'));
+        return (MYG_OPEN_ACCOUNT_BOT_USER_ID_LIST.includes(userId) && text.endsWith('名单.') && text.includes('签出的'));
         // return messageContent.endsWith('名单.') && messageContent.includes('签出的')
     }
 
