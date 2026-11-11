@@ -1,8 +1,10 @@
 node_modules
 /dist
+.idea
 .env.*
 .DS_Store
 data
+logs
 *.session
 *.session-shm
 *.session-wal

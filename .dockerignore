@@ -1,0 +1,13 @@
+.git
+.idea
+.DS_Store
+**/.env*
+**/*.session*
+node_modules
+.pnpm-store
+dist
+data
+logs
+
+# Local external plugin sources require a different dependency set.
+src/plugins/external/

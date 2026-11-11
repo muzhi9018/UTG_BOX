@@ -1,0 +1,10 @@
+services:
+  utgbox:
+    build: .
+    init: true
+    user: "${UTGBOX_UID:-1000}:${UTGBOX_GID:-1000}"
+    env_file:
+      - .env.production
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
