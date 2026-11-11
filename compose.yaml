@@ -2,9 +2,9 @@ services:
   utgbox:
     build: .
     init: true
-    user: "${UTGBOX_UID:-1000}:${UTGBOX_GID:-1000}"
+    user: "${UTGBOX_UID:-1001}:${UTGBOX_GID:-1001}"
     env_file:
       - .env.production
     volumes:
-      - ./data:/app/data
+      - /data/docker/services/UTG_BOX/data:/app/data
     restart: unless-stopped
