@@ -63,6 +63,7 @@ avoid re-login.
 - .env.production
 
 ## Built-in commands
+- `/userinfo @username` -> show the user's ID, display name, username, account type, and bio
 - `/ping` -> `pong`
 - `/id` -> reply with current chat ID
 - `hello*` -> `hi there`
